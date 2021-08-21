@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- CSS only -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <title>Login and Registration</title>
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+                <h1>Register Here!</h1>
+                <form action="/create" method="POST" enctype="multipart/form-data">
+                    <div class="form-group-md-6">
+                        <label for="first_name">First Name</label>
+                        <input type="text" class="form-control" id="first_name" name="first_name">
+                    </div>
+                    {% csrf_token %}
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if 'first_name' in message.tags %}
+                    <p style=color:red;>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="last_name">Last Name</label>
+                        <input type="text" class="form-control" id="last_name" name="last_name">
+                    </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if 'last_name' in message.tags %}
+                    <p style=color:red;>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="email">Email</label>
+                        <input type="email" class="form-control" id="email" name="email">
+                    </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if 'email' in message.tags %}
+                    <p style=color:red;>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" class="form-control" id="password" name="password">
+                    </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if 'password' in message.tags %}
+                    <p style=color:red;>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="confirm_password">Confirm PW</label>
+                        <input type="password" class="form-control" id="confirm_password" name="confirm_password">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Register</button>
+                </form>
+            </div>
+            <div class="col-md-6">
+                <h1>Login Here!</h1>
+                <form action="/log" method="POST">
+                    {% csrf_token %}
+                    <div class="form-group">
+                        <label for="email">Email:</label>
+                        <input type="email" class="form-control" id="email" name="email" />
+                    </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if 'not_found' in message.tags %}
+                    <p style=color:red;>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <div class="form-group">
+                        <label for="password">Password:</label>
+                        <input type="password" class="form-control" id="password" name="password" />
+                    </div>
+                    {% if messages %}
+                    {% for message in messages %}
+                    {% if 'invalid' in message.tags %}
+                    <p style=color:red;>{{ message }}</p>
+                    {% endif %}
+                    {% endfor %}
+                    {% endif %}
+                    <button class="btn btn-danger">Login</button>
+                    
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
