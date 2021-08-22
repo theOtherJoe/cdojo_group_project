@@ -38,9 +38,9 @@ def log_user(request):
             return redirect('/dashboard')
         else:
             messages.error(request, 'Invalid Email or Password!', extra_tags='invalid')
-            return redirect('/')
+            return redirect('/home')
     messages.error(request, "Email does not exist")
-    return redirect('/')
+    return redirect('/home')
 
 def logout(request):
     request.session.clear()
