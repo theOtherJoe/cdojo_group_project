@@ -28,3 +28,12 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
+
+class Game(models.Model):
+    name = models.CharField(max_length=255)
+    desc = models.TextField()
+    date = models.DateTimeField()
+    image = models.ImageField(null=True, blank=True, upload_to="images/")
+    user_review = models.ForeignKey(User, related_name="game_review", on_delete= models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
