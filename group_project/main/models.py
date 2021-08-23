@@ -1,7 +1,7 @@
 from django.db import models
 import re
-
 from django.db.models.deletion import CASCADE
+from django.db.models.fields import related
 
 class UserManager(models.Manager):
     def basic_validator(self, postData):
@@ -19,21 +19,42 @@ class UserManager(models.Manager):
             errors['password'] = "Passwords do not match!"
         return errors
 
+class GameManager(models.Manager):
+    def game_validator(self, postData):
+        errors = {}
+        return errors
+
+class ReviewManager(models.Manager):
+    def review_validator(self, postData):
+        errors = {}
+        return errors
+
 class User(models.Model):
     first_name = models.CharField(max_length=255)
     last_name = models.CharField(max_length=255)
-    games = models.ImageField(null=True, blank=True, upload_to="images/")
     email = models.CharField(max_length=45)
     password = models.CharField(max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
+    # games_uploaded = []
+    # reviews_made = []
 
 class Game(models.Model):
-    name = models.CharField(max_length=255)
-    desc = models.TextField()
-    date = models.DateTimeField()
-    image = models.ImageField(null=True, blank=True, upload_to="images/")
-    user_review = models.ForeignKey(User, related_name="game_review", on_delete= models.CASCADE)
+    title = models.CharField(max_length=70)
+    description = models.TextField()
+    publisher = models.ForeignKey(User, related_name="games_uploaded", on_delete=models.CASCADE)
+    release_date = models.DateField()
+    game_image = models.ImageField(null=True, blank=True, upload_to="images/")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    objects = GameManager()
+    # reviews = []
+
+class Review(models.Model):
+    game_review = models.TextField()
+    reviewer = models.ForeignKey(User, related_name="reviews_made", on_delete=models.CASCADE)
+    reviews_for_game = models.ForeignKey(Game, related_name="reviews", on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    objects = ReviewManager()

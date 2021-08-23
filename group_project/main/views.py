@@ -4,6 +4,9 @@ from django.contrib import messages
 import bcrypt
 
 def home(request):
+    return render(request, "index.html")
+
+def homepage(request):
     return render(request, "log_reg.html")
 
 def home_create(request):
@@ -35,9 +38,9 @@ def log_user(request):
             return redirect('/dashboard')
         else:
             messages.error(request, 'Invalid Email or Password!', extra_tags='invalid')
-            return redirect('/')
+            return redirect('/home')
     messages.error(request, "Email does not exist")
-    return redirect('/')
+    return redirect('/home')
 
 def logout(request):
     request.session.clear()
@@ -49,3 +52,17 @@ def dashboard(request):
         'user': User.objects.get(id=request.session['log_user_id']),
     }
     return render(request, 'dashboard.html', context)
+
+def add_game(request):
+    if request.method == "POST":
+        # Create a new game here
+        pass
+    else:
+        return render(request, 'add.html')
+
+def review(request):
+    return render(request, 'review.html')
+
+def add_review(request):
+    # create a new review here
+    pass
