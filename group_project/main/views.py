@@ -50,6 +50,7 @@ def dashboard(request):
     print('Dashboard')
     context = {
         'user': User.objects.get(id=request.session['log_user_id']),
+        'all_games': Game.objects.all(),
     }
     return render(request, 'dashboard.html', context)
 

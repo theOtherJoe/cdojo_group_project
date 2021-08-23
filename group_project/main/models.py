@@ -12,7 +12,7 @@ class UserManager(models.Manager):
         if len(postData['last_name']) < 2:
             errors['last_name'] = "Last Name should be at least 2 characters!"
         if not EMAIL_REGEX.match(postData['email']): 
-            errors['email'] = ("Invalid email address!")
+            errors['email'] = "Invalid email address!"
         if len(postData['password']) < 8:
             errors['password'] = "Password should be at least 8 characters!"
         if postData['password'] != postData['confirm_password']:
@@ -22,11 +22,19 @@ class UserManager(models.Manager):
 class GameManager(models.Manager):
     def game_validator(self, postData):
         errors = {}
+        if len(postData['title']) < 2:
+            errors['title'] = "Game title must be at least 2 characters!"
+        if len(postData['description']) < 2:
+            errors['description'] = "Description is required and must be at least 2 or more characters!"
+        if not postData['release_date']:
+            errors['release_date'] = "Release date is required!"
         return errors
 
 class ReviewManager(models.Manager):
     def review_validator(self, postData):
         errors = {}
+        if len(postData['game_review']) < 2:
+            errors['game_review'] = "Please provide your review and it must be at least 2 or more characters long."
         return errors
 class User(models.Model):
     first_name = models.CharField(max_length=255)
