@@ -4,7 +4,8 @@ from .import views
 urlpatterns = [
     path('', views.home),
     path('home', views.homepage),
-    path('add', views.add_game),
+    path('add', views.add),
+    path('add_game', views.add_game),
     path('create', views.home_create),
     path('dashboard', views.dashboard),
     path('log', views.log_user),

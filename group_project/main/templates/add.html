@@ -14,39 +14,40 @@
             <a class="m-1" href="/logout">Logout</a>
         </div>
         <h1>Add a Game</h1>
-        <form action="/add" method="post">
+        <form action="/add" method="POST">
+            {% csrf_token %}
             <div class="form-group row">
-                <label for="game_name" class="col-sm-2 col-form-label">Game Name</label>
+                <label for="title" class="col-sm-2 col-form-label">Game Title</label>
                 <div class="col-sm-10">
-                    <input name="game_name" type="text" class="form-control">
+                    <input name="title" id="title" type="text" class="form-control">
                 </div>
             </div>
 
             <div class="form-group row">
-                <label for="game_name" class="col-sm-2 col-form-label">Publisher Name</label>
+                <label for="description" class="col-sm-2 col-form-label">Description</label>
                 <div class="col-sm-10">
-                    <input name="game_name" type="text" class="form-control">
+                    <input name="description" type="text" id="description" class="form-control">
                 </div>
             </div>
 
-            <div class="form-group row">
-                <label for="game_description" class="col-sm-2 col-form-label">Description</label>
+            <!-- <div class="form-group row">
+                <label for="publisher" class="col-sm-2 col-form-label">Publisher</label>
                 <div class="col-sm-10">
-                    <input name="game_description" type="text" class="form-control">
+                    <input name="publisher" id="publisher" type="text" class="form-control">
                 </div>
-            </div>
+            </div> -->
 
             <div class="form-group row">
-                <label for="game_date" class="col-sm-2 col-form-label">Release Date</label>
+                <label for="release_date" class="col-sm-2 col-form-label">Release Date</label>
                 <div class="col-sm-10">
-                    <input name="game_date" type="date" class="form-control">
+                    <input name="release_date" id="release_date" type="date" class="form-control">
                 </div>
             </div>
 
             <div class="form-group row">
                 <label for="game_image" class="col-sm-2 col-form-label">Game Image</label>
                 <div class="col-sm-10">
-                    <input name="game_image" type="url" class="form-control">
+                    <input name="game_image" id="game_image" type="file" class="form-control">
                 </div>
             </div>
 
