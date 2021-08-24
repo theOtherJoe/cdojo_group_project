@@ -14,7 +14,7 @@
             <a class="m-1" href="/logout">Logout</a>
         </div>
         <h1>Add a Game</h1>
-        <form action="/add" method="POST">
+        <form action="/add_game" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             <div class="form-group row">
                 <label for="title" class="col-sm-2 col-form-label">Game Title</label>

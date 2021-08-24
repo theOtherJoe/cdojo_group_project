@@ -71,9 +71,11 @@ def add_game(request):
             description = request.POST['description'],
             release_date = request.POST['release_date'],
             game_image = request.FILES['game_image'],
-            publisher = current_user)
+            publisher = current_user
+            )
+        return redirect('/dashboard')
     else:
-        return render(request, 'add.html')
+        return redirect('/dashboard')
 
 def review(request):
     return render(request, 'review.html')
