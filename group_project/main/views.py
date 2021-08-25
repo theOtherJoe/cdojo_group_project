@@ -54,8 +54,13 @@ def dashboard(request):
     }
     return render(request, 'dashboard.html', context)
 
-def add_game(request):
-        return render(request, 'add.html')
+def add(request):
+    if "log_user_id" not in request.session:
+        return redirect('/')
+    context = {
+        "user_id": User.objects.get(id=request.session['log_user_id']),
+    }
+    return render(request, 'add.html', context)
 
 def add_game(request):
     if "log_user_id" not in request.session:
