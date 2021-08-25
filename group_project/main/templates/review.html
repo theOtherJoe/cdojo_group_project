@@ -18,28 +18,30 @@
         <h1>Add a Review</h1>
 
         <div class="row mt-3 mb-3">
-            <h2>Game Name: GTA V</h2>
+            <h2>Game Name: {{current_game.title}}</h2>
         </div>
         <div class="row mt-3 mb-3">
-            <h2>Publish by: Israel Sagesse</h2>
+            <h2>Publish by: {{current_game.publisher.first_name}} {{current_game.publisher.last_name}}</h2>
         </div>
         <div class="row mt-3 mb-3">
-            <h2>Release date: September 17, 2013</h2>
+            <h2>Release date: {{current_game.release_date}}</h2>
         </div>
         <div class="row mt-3 mb-3">
-            <img src="{% static 'images/gta.jpg' %}" class="img-fluid " alt="GTA game image">
+            <img src="{{current_game.game_image.url}}" class="img-fluid " alt="GTA game image">
         </div>
 
-        <form action="/add_review" method="post">
+        <form action="/add_review/{{current_game.id}}" method="post" enctype="multipart/form-data">
+            {% csrf_token %}
             <div class="form-group row">
+                <label for="game_review" class="col-sm-2 col-form-label">Review Game:</label>
                 <div class="col-sm-10">
-                    <input name="game_review" type="url" class="form-control" placeholder="Add a Review">
+                    <input name="game_review" type="text" class="form-control" placeholder="Add review">
                 </div>
             </div>
 
             <div class="row">
                 <div class="col text-center mb-2">
-                    <button type="submit" class="btn btn-outline-success">Add</button>
+                    <button type="submit" name="submit" class="btn btn-outline-success">Add</button>
                 </div>
             </div>
         </form>

@@ -78,9 +78,25 @@ def add_game(request):
     else:
         return redirect('/dashboard')
 
-def review(request):
-    return render(request, 'review.html')
+def review(request, rev_id):
+    if "log_user_id" not in request.session:
+        return redirect('/')
+    context = {
+        'current_game': Game.objects.get(id=rev_id)
+    }
+    return render(request, 'review.html', context)
 
-def add_review(request):
-    # create a new review here
-    pass
+def add_review(request, rev_id):
+    if "log_user_id" not in request.session:
+        return redirect('/')
+    if request.method == "POST":
+        current_user = User.objects.get(id=request.session['log_user_id'])
+        current_game = Game.objects.get(id=rev_id)
+        new_review = Review.objects.create(
+            game_review = request.POST['game_review'],
+            reviewer = current_user,
+            reviews_for_game = current_game
+            )
+        return redirect('/dashboard')
+    else:
+        return redirect('/dashboard')
