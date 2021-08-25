@@ -68,8 +68,8 @@ def add_game(request):
     if request.method == "POST":
         current_user = User.objects.get(id=request.session['log_user_id'])
         new_game = Game.objects.create(
-            title = request.POST['title'], 
-            description = request.POST['description'],
+            title = request.POST['game_title'], 
+            description = request.POST['game_description'],
             release_date = request.POST['release_date'],
             game_image = request.FILES['game_image'],
             publisher = current_user
