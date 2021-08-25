@@ -51,6 +51,7 @@ def dashboard(request):
     context = {
         'user': User.objects.get(id=request.session['log_user_id']),
         'all_games': Game.objects.all(),
+        'all_reviews': Review.objects.all()
     }
     return render(request, 'dashboard.html', context)
 
@@ -100,3 +101,14 @@ def add_review(request, rev_id):
         return redirect('/dashboard')
     else:
         return redirect('/dashboard')
+
+def show_reviews(request, game_id):
+    if "log_user_id" not in request.session:
+        return redirect('/')
+    game = Game.objects.get(id=game_id)
+    context = {
+        'current_user': User.objects.get(id=request.session['log_user_id']),
+        'current_game': Game.objects.get(id=game_id),
+        'reviews_for_game': game.reviews.all()
+    }
+    return render(request, 'show_reviews.html', context)

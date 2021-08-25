@@ -56,7 +56,11 @@
                                 <th scope="row">{{game.title}}</th>
                                 <td>{{game.description}}</td>
                                 <td>{{game.release_date}}</td>
+                                {% if user not in game.reviews.reviewer %}
                                 <td><a href="review/{{game.id}}">Add Review</a></td>
+                                {% else %}
+                                <td><a href="show_reviews/{{game.id}}">Show Reviews</a></td>
+                                {% endif %}
                             </tr>
                             {% endfor %}
                         </tbody>

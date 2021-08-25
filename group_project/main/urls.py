@@ -11,5 +11,6 @@ urlpatterns = [
     path('log', views.log_user),
     path('review/<int:rev_id>', views.review),
     path('add_review/<int:rev_id>', views.add_review),
+    path('show_reviews/<int:game_id>', views.show_reviews),
     path('logout', views.logout),
 ]
