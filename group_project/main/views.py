@@ -55,11 +55,23 @@ def dashboard(request):
     return render(request, 'dashboard.html', context)
 
 def add_game(request):
-    if request.method == "POST":
-        # Create a new game here
-        pass
-    else:
         return render(request, 'add.html')
+
+def add_game(request):
+    if "log_user_id" not in request.session:
+        return redirect('/')
+    if request.method == "POST":
+        current_user = User.objects.get(id=request.session['log_user_id'])
+        new_game = Game.objects.create(
+            title = request.POST['title'], 
+            description = request.POST['description'],
+            release_date = request.POST['release_date'],
+            game_image = request.FILES['game_image'],
+            publisher = current_user
+            )
+        return redirect('/dashboard')
+    else:
+        return redirect('/dashboard')
 
 def review(request):
     return render(request, 'review.html')

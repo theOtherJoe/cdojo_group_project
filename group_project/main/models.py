@@ -22,12 +22,12 @@ class UserManager(models.Manager):
 class GameManager(models.Manager):
     def game_validator(self, postData):
         errors = {}
-        if len(postData['title']) < 2:
-            errors['title'] = "Game title must be at least 2 characters!"
-        if len(postData['description']) < 2:
-            errors['description'] = "Description is required and must be at least 2 or more characters!"
-        if not postData['release_date']:
-            errors['release_date'] = "Release date is required!"
+        if len(postData['game_title']) < 2:
+            errors['game_title'] = "Game title must be at least 2 characters!"
+        if len(postData['game_description']) < 2:
+            errors['game_description'] = "Description is required and must be at least 2 or more characters!"
+        if not postData['game_date']:
+            errors['game_date'] = "Release date is required!"
         return errors
 
 class ReviewManager(models.Manager):
@@ -52,7 +52,7 @@ class Game(models.Model):
     description = models.TextField()
     publisher = models.ForeignKey(User, related_name="games_uploaded", on_delete=models.CASCADE)
     release_date = models.DateField()
-    game_image = models.ImageField(null=True, blank=True, upload_to="images/")
+    game_image = models.ImageField(upload_to="images/")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = GameManager()

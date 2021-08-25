@@ -2,3 +2,5 @@ secrets.py
 db.sqlite3
 *.pyc
 *.pyo
+.DS_Store
+*.jpg

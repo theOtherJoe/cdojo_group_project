@@ -22,34 +22,21 @@
 
             <div class="container mt-5">
                 <h1>Recent game review</h1>
-
                 <div class="row mt-3 mb-3">
+                    {% for game in all_games %}
                     <div class="col">
-                        <img src="{% static 'images/cod.jpg' %}" class="img-fluid " alt="Call of duty Warzone">
+                        <img src="{{game.game_image.url}}" class="img-fluid " alt="{{game.title}}">
                     </div>
-            
-                    <div class="col">
-                        <img src="{% static 'images/ghost.jpg' %}" class="img-fluid " alt="Ghost of Tsushima">
-                    </div>
-        
-                    <div class="col">
-                        <img src="{% static 'images/gta.jpg' %}" class="img-fluid " alt="GTA game image">
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <h1>Most popular Game</h1>
                 <div class="row mt-3 mb-3">
+                    {% for game in all_games %}
                     <div class="col">
-                        <img src="{% static 'images/cod.jpg' %}" class="img-fluid " alt="Call of duty Warzone">
+                        <img src="{{game.game_image.url}}" class="img-fluid " alt="{{game.title}}">
                     </div>
-            
-                    <div class="col">
-                        <img src="{% static 'images/ghost.jpg' %}" class="img-fluid " alt="Ghost of Tsushima">
-                    </div>
-        
-                    <div class="col">
-                        <img src="{% static 'images/gta.jpg' %}" class="img-fluid " alt="GTA game image">
-                    </div>
+                    {% endfor %}
                 </div>
 
                 <h1>All Games</h1>
@@ -64,12 +51,14 @@
                             </tr>
                         </thead>
                         <tbody>
+                            {% for game in all_games %}
                             <tr>
-                                <th scope="row">GTA V</th>
-                                <td>Open world rpg game</td>
-                                <td>September 17, 2013</td>
+                                <th scope="row">{{game.title}}</th>
+                                <td>{{game.description}}</td>
+                                <td>{{game.release_date}}</td>
                                 <td><a href="review">Add Review</a></td>
                             </tr>
+                            {% endfor %}
                         </tbody>
                     </table>
                 </div>
