@@ -44,13 +44,13 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
-    # games_uploaded = []
-    # reviews_made = []
+    # games = []
+    # reviews = []
 
 class Game(models.Model):
     title = models.CharField(max_length=70)
     description = models.TextField()
-    publisher = models.ForeignKey(User, related_name="games_uploaded", on_delete=models.CASCADE)
+    publisher = models.ForeignKey(User, related_name="games", on_delete=models.CASCADE)
     release_date = models.DateField()
     game_image = models.ImageField(upload_to="images/")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -59,9 +59,9 @@ class Game(models.Model):
     # reviews = []
 
 class Review(models.Model):
-    game_review = models.TextField()
-    reviewer = models.ForeignKey(User, related_name="reviews_made", on_delete=models.CASCADE)
-    reviews_for_game = models.ForeignKey(Game, related_name="reviews", on_delete=models.CASCADE)
+    review = models.TextField()
+    reviewer = models.ForeignKey(User, related_name="reviews", on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, related_name="reviews", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = ReviewManager()

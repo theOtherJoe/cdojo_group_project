@@ -23,9 +23,9 @@
             <div class="container mt-5">
                 <h1>Recent game review</h1>
                 <div class="row mt-3 mb-3">
-                    {% for game in all_games %}
+                    {% for game in recent_reviews %}
                     <div class="col">
-                        <img src="{{game.game_image.url}}" class="img-fluid " alt="{{game.title}}">
+                        <img src="{{game.game.game_image.url}}" class="img-fluid " alt="{{game.game.title}}">
                     </div>
                     {% endfor %}
                 </div>
@@ -56,10 +56,10 @@
                                 <th scope="row">{{game.title}}</th>
                                 <td>{{game.description}}</td>
                                 <td>{{game.release_date}}</td>
-                                {% if user not in game.reviews.reviewer %}
-                                <td><a href="review/{{game.id}}">Add Review</a></td>
+                                {% if user == game.publisher %}
+                                <td><a href="show_reviews/{{game.id}}">Show Review</a></td>
                                 {% else %}
-                                <td><a href="show_reviews/{{game.id}}">Show Reviews</a></td>
+                                <td><a href="review/{{game.id}}">Add Review</a></td>
                                 {% endif %}
                             </tr>
                             {% endfor %}

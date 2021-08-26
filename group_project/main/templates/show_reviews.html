@@ -15,12 +15,12 @@
             <a class="m-1" href="/add">Add Game</a>
             <a class="m-1" href="/logout">Logout</a>
         </div>
-        <h1>All reviews for {{current_game.title}}!</h1>
+        <h1 class="mb-3">All reviews for {{current_game.title}}!</h1>
 
-        {% for review in reviews_for_game %}
+        {% for review in current_game.reviews.all %}
         <div class="mt-3 mb-3">
             <h4>Reviewer: {{review.reviewer.first_name}} {{review.reviewer.last_name}}</h4>
-            <p>{{review.game_review}}</p>
+            <p>{{review.review}}</p>
         </div>
         {% endfor %}
     </div>

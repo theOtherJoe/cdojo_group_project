@@ -48,10 +48,11 @@ def logout(request):
 
 def dashboard(request):
     print('Dashboard')
+
     context = {
         'user': User.objects.get(id=request.session['log_user_id']),
         'all_games': Game.objects.all(),
-        'all_reviews': Review.objects.all()
+        'recent_reviews': Review.objects.order_by('-created_at')[:3]
     }
     return render(request, 'dashboard.html', context)
 
@@ -94,9 +95,9 @@ def add_review(request, rev_id):
         current_user = User.objects.get(id=request.session['log_user_id'])
         current_game = Game.objects.get(id=rev_id)
         new_review = Review.objects.create(
-            game_review = request.POST['game_review'],
+            review = request.POST['game_review'],
             reviewer = current_user,
-            reviews_for_game = current_game
+            game = current_game
             )
         return redirect('/dashboard')
     else:
