@@ -48,11 +48,12 @@ def logout(request):
 
 def dashboard(request):
     print('Dashboard')
-
+    all_games = Game.objects.all()
     context = {
         'user': User.objects.get(id=request.session['log_user_id']),
         'all_games': Game.objects.all(),
-        'recent_reviews': Review.objects.order_by('-created_at')[:3]
+        'recent_reviews': Review.objects.order_by('-created_at')[:3],
+        'most_reviewed_games': Game.objects.order_by('reviews')
     }
     return render(request, 'dashboard.html', context)
 

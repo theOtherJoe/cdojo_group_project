@@ -30,9 +30,9 @@
                     {% endfor %}
                 </div>
 
-                <h1>Most popular Game</h1>
+                <h1>Most popular Games</h1>
                 <div class="row mt-3 mb-3">
-                    {% for game in all_games %}
+                    {% for game in most_reviewed_games %}
                         <div class="col">
                             <img src="{{game.game_image.url}}" class="img-fluid " alt="{{game.title}}">
                         </div>
