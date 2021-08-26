@@ -99,7 +99,7 @@ def add_review(request, rev_id):
             reviewer = current_user,
             game = current_game
             )
-        return redirect('/dashboard')
+        return redirect(f'/show_reviews/{rev_id}')
     else:
         return redirect('/dashboard')
 
