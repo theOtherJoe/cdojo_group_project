@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
 import bcrypt
+from datetime import date, timedelta
 
 def home(request):
     return render(request, "index.html")
@@ -48,8 +49,13 @@ def logout(request):
 
 def dashboard(request):
     print('Dashboard')
+    startdate = date.today()
+    enddate = startdate - timedelta(days=7)
     context = {
         'user': User.objects.get(id=request.session['log_user_id']),
+        'all_games': Game.objects.all(),
+        'recent_reviews': Review.objects.filter(updated_at__range=[enddate, startdate]),
+        'most_reviewed_games': Game.objects.order_by('reviews')
     }
     return render(request, 'dashboard.html', context)
 
@@ -67,8 +73,8 @@ def add_game(request):
     if request.method == "POST":
         current_user = User.objects.get(id=request.session['log_user_id'])
         new_game = Game.objects.create(
-            title = request.POST['title'], 
-            description = request.POST['description'],
+            title = request.POST['game_title'], 
+            description = request.POST['game_description'],
             release_date = request.POST['release_date'],
             game_image = request.FILES['game_image'],
             publisher = current_user
@@ -77,9 +83,36 @@ def add_game(request):
     else:
         return redirect('/dashboard')
 
-def review(request):
-    return render(request, 'review.html')
+def review(request, rev_id):
+    if "log_user_id" not in request.session:
+        return redirect('/')
+    context = {
+        'current_game': Game.objects.get(id=rev_id)
+    }
+    return render(request, 'review.html', context)
 
-def add_review(request):
-    # create a new review here
-    pass
+def add_review(request, rev_id):
+    if "log_user_id" not in request.session:
+        return redirect('/')
+    if request.method == "POST":
+        current_user = User.objects.get(id=request.session['log_user_id'])
+        current_game = Game.objects.get(id=rev_id)
+        new_review = Review.objects.create(
+            review = request.POST['game_review'],
+            reviewer = current_user,
+            game = current_game
+            )
+        return redirect(f'/show_reviews/{rev_id}')
+    else:
+        return redirect('/dashboard')
+
+def show_reviews(request, game_id):
+    if "log_user_id" not in request.session:
+        return redirect('/')
+    game = Game.objects.get(id=game_id)
+    context = {
+        'current_user': User.objects.get(id=request.session['log_user_id']),
+        'current_game': Game.objects.get(id=game_id),
+        'reviews_for_game': game.reviews.all()
+    }
+    return render(request, 'show_reviews.html', context)

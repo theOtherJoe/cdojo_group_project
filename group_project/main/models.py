@@ -12,7 +12,7 @@ class UserManager(models.Manager):
         if len(postData['last_name']) < 2:
             errors['last_name'] = "Last Name should be at least 2 characters!"
         if not EMAIL_REGEX.match(postData['email']): 
-            errors['email'] = ("Invalid email address!")
+            errors['email'] = "Invalid email address!"
         if len(postData['password']) < 8:
             errors['password'] = "Password should be at least 8 characters!"
         if postData['password'] != postData['confirm_password']:
@@ -22,11 +22,19 @@ class UserManager(models.Manager):
 class GameManager(models.Manager):
     def game_validator(self, postData):
         errors = {}
+        if len(postData['game_title']) < 2:
+            errors['game_title'] = "Game title must be at least 2 characters!"
+        if len(postData['game_description']) < 2:
+            errors['game_description'] = "Description is required and must be at least 2 or more characters!"
+        if not postData['game_date']:
+            errors['game_date'] = "Release date is required!"
         return errors
 
 class ReviewManager(models.Manager):
     def review_validator(self, postData):
         errors = {}
+        if len(postData['game_review']) < 2:
+            errors['game_review'] = "Please provide your review and it must be at least 2 or more characters long."
         return errors
 
 class User(models.Model):
@@ -37,24 +45,24 @@ class User(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = UserManager()
-    # games_uploaded = []
-    # reviews_made = []
+    # games = []
+    # reviews = []
 
 class Game(models.Model):
     title = models.CharField(max_length=70)
     description = models.TextField()
-    publisher = models.ForeignKey(User, related_name="games_uploaded", on_delete=models.CASCADE)
+    publisher = models.ForeignKey(User, related_name="games", on_delete=models.CASCADE)
     release_date = models.DateField()
-    game_image = models.ImageField(null=True, blank=True, upload_to="images/")
+    game_image = models.ImageField(upload_to="images/")
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = GameManager()
     # reviews = []
 
 class Review(models.Model):
-    game_review = models.TextField()
-    reviewer = models.ForeignKey(User, related_name="reviews_made", on_delete=models.CASCADE)
-    reviews_for_game = models.ForeignKey(Game, related_name="reviews", on_delete=models.CASCADE)
+    review = models.TextField()
+    reviewer = models.ForeignKey(User, related_name="reviews", on_delete=models.CASCADE)
+    game = models.ForeignKey(Game, related_name="reviews", on_delete=models.CASCADE)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     objects = ReviewManager()
