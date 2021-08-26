@@ -47,11 +47,11 @@ def logout(request):
     return redirect('/')
 
 def dashboard(request):
-    print('Dashboard')
     context = {
         'user': User.objects.get(id=request.session['log_user_id']),
+        'recent_reviews': Review.objects.order_by('-created_at')[:3],
         'all_games': Game.objects.all(),
-        'all_reviews': Review.objects.all()
+        'most_popular': Review.objects.order_by('-updated_at')[:3]
     }
     return render(request, 'dashboard.html', context)
 
