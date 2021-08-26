@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from .models import *
 from django.contrib import messages
 import bcrypt
+from datetime import date, timedelta
 
 def home(request):
     return render(request, "index.html")
@@ -48,11 +49,12 @@ def logout(request):
 
 def dashboard(request):
     print('Dashboard')
-    all_games = Game.objects.all()
+    startdate = date.today()
+    enddate = startdate - timedelta(days=7)
     context = {
         'user': User.objects.get(id=request.session['log_user_id']),
         'all_games': Game.objects.all(),
-        'recent_reviews': Review.objects.order_by('-created_at')[:3],
+        'recent_reviews': Review.objects.filter(updated_at__range=[enddate, startdate]),
         'most_reviewed_games': Game.objects.order_by('reviews')
     }
     return render(request, 'dashboard.html', context)
