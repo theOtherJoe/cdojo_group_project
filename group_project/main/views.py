@@ -55,7 +55,7 @@ def dashboard(request):
         'user': User.objects.get(id=request.session['log_user_id']),
         'all_games': Game.objects.all(),
         'recent_reviews': Review.objects.filter(updated_at__range=[enddate, startdate]),
-        'most_reviewed_games': Game.objects.order_by('reviews')
+        'most_popular_games': Game.objects.order_by('-reviews')
     }
     return render(request, 'dashboard.html', context)
 
